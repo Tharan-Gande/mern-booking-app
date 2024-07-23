@@ -7,7 +7,7 @@ import authRoutes from "./Routes/auth";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
-import myHotelRoutes from "./routes/my-hotels";
+import myHotelRoutes from "./Routes/my-hotels";
 import bodyParser from "body-parser";
 
 const app = express();
