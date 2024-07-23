@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs"
 export type UserType={
-    _id: string;
+    id: string;
     email:string;
     password:string;
     firstName:string;

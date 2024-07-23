@@ -2,7 +2,7 @@ import express,{Request,Response} from "express"
 import User from "../Models/user";
 import jwt from "jsonwebtoken";
 import {check,validationResult} from "express-validator";
-require('dotenv').config();
+//require('dotenv').config();
 const router= express.Router();
 router.post("/register",
     [
