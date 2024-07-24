@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
-import Hotel, { HotelType } from "../Models/hotel";
+import Hotel from "../Models/hotel";
+import { HotelType } from "../shared/types";
 import verifyToken from "../middleware/auth";
 import { body, validationResult } from "express-validator";
 
@@ -45,36 +46,20 @@ router.post(
   async (req: Request, res: Response) => {
     console.log("inside backend");
     try {
-      // const errors = validationResult(req);
-      // console.log(errors);
-      // if (!errors.isEmpty()) {
-      //   return res.status(400).json({ errors: errors.array() });
-      // }
-
       const imageFiles = req.files as Express.Multer.File[];
       const newHotel: HotelType = req.body;
 
       console.log("Request body:", req.body);
       console.log("Image files:", imageFiles);
 
-      // const uploadPromises = imageFiles.map(async (image) => {
-      //   const b64 = Buffer.from(image.buffer).toString("base64");
-      //   let dataURI = "data:" + image.mimetype + ";base64," + b64;
-      //   try {
-      //     const res = await cloudinary.v2.uploader.upload(dataURI);
-      //     return res.url;
-      //   } catch (uploadError) {
-      //     console.error("Error uploading image:", uploadError);
-      //     throw uploadError;
-      //   }
-      // });
+      const uploadPromises = imageFiles.map(async (image) => {
+        const b64 = Buffer.from(image.buffer).toString("base64");
+        let dataURI = "data:" + image.mimetype + ";base64," + b64;
+        const res = await cloudinary.v2.uploader.upload(dataURI);
+        return res.url;
+      });
 
-      // const imageUrls = await Promise.all(uploadPromises);
-      // newHotel.imageUrls = imageUrls;
-      // newHotel.lastUpdated = new Date();
-      // newHotel.userId = req.userId;
-      const imageUrls = await uploadImages(imageFiles);
-
+      const imageUrls = await Promise.all(uploadPromises);
       newHotel.imageUrls = imageUrls;
       newHotel.lastUpdated = new Date();
       newHotel.userId = req.userId;
@@ -88,16 +73,12 @@ router.post(
     }
   }
 );
-
-async function uploadImages(imageFiles: Express.Multer.File[]) {
-  const uploadPromises = imageFiles.map(async (image) => {
-    const b64 = Buffer.from(image.buffer).toString("base64");
-    let dataURI = "data:" + image.mimetype + ";base64," + b64;
-    const res = await cloudinary.v2.uploader.upload(dataURI);
-    return res.url;
-  });
-
-  const imageUrls = await Promise.all(uploadPromises);
-  return imageUrls;
-}
+router.get("/", verifyToken, async (req: Request, res: Response) => {
+  try {
+    const hotels = await Hotel.find({ userId: req.userId });
+    res.json(hotels);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching hotels" });
+  }
+});
 export default router;
