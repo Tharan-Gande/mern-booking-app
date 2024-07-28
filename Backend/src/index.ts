@@ -9,6 +9,7 @@ import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import myHotelRoutes from "./Routes/my-hotels";
 import bodyParser from "body-parser";
+import hotelRoutes from "./Routes/hotels";
 
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/my-hotels", myHotelRoutes);
+app.use("/api/hotels", hotelRoutes);
 
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));

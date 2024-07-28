@@ -11,6 +11,7 @@ import AddHotel from "./pages/AddHotel";
 import MyHotels from "./pages/MyHotels";
 import { useAppContext } from "./contexts/AppContext";
 import EditHotel from "./pages/EditHotel";
+import Search from "./pages/Search";
 //import './/tailwind.css';
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
           path="/search"
           element={
             <Layout>
-              <p className="text-1xl font-bold">Search Page</p>
+              <Search />
             </Layout>
           }
         />
