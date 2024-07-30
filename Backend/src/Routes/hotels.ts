@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import Hotel from "../Models/hotel";
 import { HotelSearchResponse } from "../shared/types";
+import { param, validationResult } from "express-validator";
 const router = express.Router();
 
 router.get("/search", async (req: Request, res: Response) => {
@@ -44,10 +45,28 @@ router.get("/search", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 });
+router.get(
+  "/:id",
+  [param("id").notEmpty().withMessage("Hotel")],
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const id = req.params.id.toString();
+
+    try {
+      const hotel = await Hotel.findById(id);
+      res.json(hotel);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error fetching hotel" });
+    }
+  }
+);
 
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {};
-
   if (queryParams.destination) {
     constructedQuery.$or = [
       { city: new RegExp(queryParams.destination, "i") },
@@ -88,7 +107,9 @@ const constructSearchQuery = (queryParams: any) => {
       ? queryParams.stars.map((star: string) => parseInt(star))
       : parseInt(queryParams.stars);
 
-    constructedQuery.starRating = { $in: starRatings };
+    constructedQuery.starRating = {
+      $in: starRatings,
+    };
   }
 
   if (queryParams.maxPrice) {

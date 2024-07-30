@@ -31,15 +31,18 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="-mt-8 p-3 bg-orange-400 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center gap-4 "
+      className="-mt-8 p-3 bg-orange-400 shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center gap-4"
     >
       <div className="flex flex-row items-center flex-1 bg-white p-2">
         <MdTravelExplore size={25} className="mr-2" />
         <input
-          placeholder="Where are you going?"
+          type="text"
+          placeholder="Where are you going"
           className="text-md w-full focus:outline-none"
           value={destination}
-          onChange={(event) => setDestination(event.target.value)}
+          onChange={(event) => {
+            setDestination(event.target.value);
+          }}
         />
       </div>
 

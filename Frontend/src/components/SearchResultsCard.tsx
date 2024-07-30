@@ -25,7 +25,7 @@ const SearchResultsCard = ({ hotel }: Props) => {
             <span className="ml-1 text-sm">{hotel.type}</span>
           </div>
           <Link
-            to={`detail/${hotel._id}`}
+            to={`/detail/${hotel._id}`}
             className="text-2xl font-bold cursor-pointer"
           >
             {hotel.name}

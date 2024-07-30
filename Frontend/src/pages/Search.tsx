@@ -1,14 +1,14 @@
 import { useQuery } from "react-query";
 import { useSearchContext } from "../contexts/SearchContext";
-import { useState } from "react";
 import * as apiClient from "../api-client";
+import { useState } from "react";
 import SearchResultsCard from "../components/SearchResultsCard";
 import Pagination from "../components/Pagination";
 import StarRatingFilter from "../components/StarRatingFilter";
 import HotelTypesFilter from "../components/HotelTypesFilter";
 import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
-//import { hotelTypes } from "../config/hotel-options-config";
+
 const Search = () => {
   const search = useSearchContext();
   const [page, setPage] = useState<number>(1);
@@ -30,7 +30,6 @@ const Search = () => {
     maxPrice: selectedPrice?.toString(),
     sortOption,
   };
-
   const { data: hotelData } = useQuery(["searchHotels", searchParams], () =>
     apiClient.searchHotels(searchParams)
   );
@@ -92,7 +91,7 @@ const Search = () => {
       </div>
       <div className="flex flex-col gap-5">
         <div className="flex justify-between items-center">
-          <span className="text-semibold font-bold">
+          <span className="text-xl font-bold">
             {hotelData?.pagination.total} Hotels found
             {search.destination ? ` in ${search.destination}` : ""}
           </span>
