@@ -10,6 +10,7 @@ import { v2 as cloudinary } from "cloudinary";
 import myHotelRoutes from "./Routes/my-hotels";
 import bodyParser from "body-parser";
 import hotelRoutes from "./Routes/hotels";
+import bookingRoutes from "./Routes/my-bookings";
 
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -37,6 +38,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/my-hotels", myHotelRoutes);
 app.use("/api/hotels", hotelRoutes);
+app.use("/api/my-bookings", bookingRoutes);
 
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));

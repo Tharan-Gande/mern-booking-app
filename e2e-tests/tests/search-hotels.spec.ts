@@ -69,4 +69,7 @@ test("should book hotel", async ({ page }) => {
   await expect(page.getByText("Booking Saved!")).toBeVisible({
     timeout: 10000,
   });
+
+  await page.getByRole("link", { name: "My Bookings" }).click();
+  await expect(page.getByText("Gande Bhanu tharan")).toBeVisible();
 });
