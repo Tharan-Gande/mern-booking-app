@@ -10,7 +10,7 @@ const Detail = () => {
     "fetchHotelById",
     () => apiClient.fetchHotelById(hotelId as string),
     {
-      enables: !!hotelId,
+      enabled: !!hotelId,
     }
   );
   if (!hotel) {

@@ -13,6 +13,7 @@ import { useAppContext } from "./contexts/AppContext";
 import EditHotel from "./pages/EditHotel";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
+import Booking from "./pages/Booking";
 //import './/tailwind.css';
 
 const App = () => {
@@ -62,6 +63,14 @@ const App = () => {
         />
         {isLoggedIn && (
           <>
+            <Route
+              path="/hotel/:hotelId/booking"
+              element={
+                <Layout>
+                  <Booking />
+                </Layout>
+              }
+            />
             <Route
               path="/add-hotel"
               element={
